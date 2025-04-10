@@ -1,1 +1,33 @@
-<h1>m3u8</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reproductor HLS</title>
+</head>
+<body>
+  <video id="video" controls width="640" height="360"></video>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('video');
+    const videoSrc = 'https://app-on.github.io/m3u8/Hls/ucriezbodcixdic/index-v1-a1.m3u8'; // Cambia por tu URL .m3u8
+
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSrc;
+      video.addEventListener('loadedmetadata', function () {
+        video.play();
+      });
+    } else {
+      alert('Tu navegador no soporta HLS');
+    }
+  </script>
+</body>
+</html>
+
